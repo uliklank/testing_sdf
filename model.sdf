@@ -646,6 +646,62 @@
       </collision>
     </link>
 <!-- HERE starts the hanging part -->
+<!-- torso -->
+    <link name='torso_lift_motor_screw_link'>
+      <self_collide>0</self_collide>
+      <pose>-0.150000 0.000000 0.751000 0.000000 -0.000000 0.000000</pose>
+      <inertial>
+        <mass>1.000000</mass>
+        <inertia>
+          <ixx>0.001000</ixx>
+          <ixy>0.000000</ixy>
+          <ixz>0.000000</ixz>
+          <iyy>0.001000</iyy>
+          <iyz>0.000000</iyz>
+          <izz>0.001000</izz>
+        </inertia>
+      </inertial>
+      <velocity_decay/>
+    </link>
+   <link name='torso_lift_link'>
+      <self_collide>0</self_collide>
+      <pose>-0.050000 0.000000 0.790675 0.000000 -0.000000 0.000000</pose>
+      <inertial>
+        <mass>36.449000</mass>
+        <pose>-0.099499 -0.000004 -0.086764 0.000000 -0.000000 0.000000</pose>
+        <inertia>
+          <ixx>2.792330</ixx>
+          <ixy>0.004280</ixy>
+          <ixz>-0.160631</ixz>
+          <iyy>2.521060</iyy>
+          <iyz>0.029689</iyz>
+          <izz>0.536551</izz>
+        </inertia>
+      </inertial>
+      <collision name='torso_lift_link_geom'>
+        <geometry>
+          <mesh>
+            <uri>model://pr2/meshes/torso_v0/torso_lift_L.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='torso_lift_link_geom_visual'>
+        <geometry>
+          <mesh>
+            <uri>model://pr2/meshes/torso_v0/torso_lift.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name='torso_lift_contact_sensor' type='contact'>
+        <update_rate>100.000000</update_rate>
+        <contact>
+          <collision>torso_lift_link_geom</collision>
+          <topic>__default_topic__</topic>
+        </contact>
+      </sensor>
+      <velocity_decay/>
+    </link>
+<!-- battery -->
     <link name="cyl_hang_bl">
       <pose>-0.152000 0.128000 0.135 0 0.5236 0</pose>
       <self_collide>0</self_collide>
@@ -774,6 +830,7 @@
       <pose>0.0 0.0 0.0725 0 0.0 0</pose>
       <self_collide>0</self_collide>
       <inertial>
+        <mass>30.0</mass>
         <pose>0 0 0.0  0 0 0</pose>
       </inertial>
       <visual name="vis_battery_box_fr">
@@ -799,6 +856,7 @@
         </geometry>
       </collision>
     </link>
+<!-- JOINTS-->
     <joint name="base_footprint_joint" type="revolute">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_footprint</parent>
@@ -825,6 +883,21 @@
         <xyz>0 0 1</xyz>
       </axis>
     </joint>
+<!-- torso joints -->
+    <joint name='torso_lift_joint' type='prismatic'>
+      <parent>battery_box</parent>
+      <child>torso_lift_link</child>
+      <axis>
+        <xyz>0.000000 0.000000 1.000000</xyz>
+        <limit>
+          <lower>0.000000</lower>
+          <upper>2.70000</upper>
+          <effort>0.000000</effort>
+          <velocity>4.000000</velocity>
+        </limit>
+      </axis>
+    </joint>
+<!-- catapult joints -->
     <joint name="caster_joint_bl" type="revolute">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
